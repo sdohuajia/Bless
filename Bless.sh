@@ -48,7 +48,7 @@ function setup_blessnode() {
 
     # 提示用户输入 B7S_AUTH_TOKEN
     read -p "请输入 B7S_AUTH_TOKEN: " B7S_AUTH_TOKEN
-    echo "B7S_AUTH_TOKEN=$B7S_AUTH_TOKEN" > user.txt
+    echo "$B7S_AUTH_TOKEN" > user.txt
     echo "B7S_AUTH_TOKEN 已保存到 user.txt 文件中。"
 
     # 提示用户输入 nodeid 和 hardwareid
