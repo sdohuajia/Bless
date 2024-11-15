@@ -62,6 +62,7 @@ function setup_blessnode() {
     # 使用 tmux 自动运行 npm start
     tmux new-session -d -s Bless  # 创建新的 tmux 会话，名称为 Bless
     tmux send-keys -t Bless "cd Bless" C-m  # 切换到 Bless node 目录
+    tmux send-keys -t Bless "npm install" C-m  # 安装 npm install
     tmux send-keys -t Bless "npm start" C-m # 启动 npm start
     echo "npm 已在 tmux 会话中启动。"
     echo "使用 'tmux attach -t Bless' 命令来查看日志。"
