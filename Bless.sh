@@ -46,26 +46,50 @@ function setup_blessnode() {
 
     cd Bless || { echo "无法进入 Bless 目录"; exit 1; }
 
-    # 直接提示用户输入配置信息
-    read -p "请输入 B7S_AUTH_TOKEN: " B7S_AUTH_TOKEN
-    read -p "请输入 nodeid (公钥): " nodeid
-    read -p "请输入 hardwareid: " hardwareid
-
-    # 创建 config.js 文件
+    # 创建 config.js 的开头
     cat > config.js << EOF
-    export default [
+module.exports = [
     {
-        "usertoken": "${B7S_AUTH_TOKEN}",
-        "nodes": [
-            {
-                "nodeId": "${nodeid}",
-                "hardwareId": "${hardwareid}",
-                "proxy": null
-            }
+EOF
+
+    # 提示用户输入 token
+    read -p "请输入 usertoken: " usertoken
+    
+    # 添加 usertoken 部分
+    cat >> config.js << EOF
+        usertoken: '${usertoken}',
+        nodes: [
+EOF
+
+    # 循环添加节点信息
+    while true; do
+        read -p "请输入 nodeid (直接按回车结束添加): " nodeid
+        if [ -z "$nodeid" ]; then
+            break
+        fi
+        read -p "请输入 hardwareid: " hardwareid
+        read -p "请输入 proxy (如果没有请直接按回车): " proxy
+
+        # 设置 proxy 值
+        if [ -z "$proxy" ]; then
+            proxy_value="null"
+        else
+            proxy_value="'${proxy}'"
+        fi
+
+        # 添加节点信息
+        cat >> config.js << EOF
+            { nodeId: '${nodeid}', hardwareId: '${hardwareid}', proxy: ${proxy_value} },
+EOF
+    done
+
+    # 完成配置文件
+    cat >> config.js << EOF
         ]
     }
 ];
 EOF
+
     echo "配置文件 config.js 已创建"
 
     # 使用 tmux 自动运行 npm start
