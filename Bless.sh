@@ -46,18 +46,19 @@ function setup_blessnode() {
 
     cd Bless || { echo "无法进入 Bless 目录"; exit 1; }
 
-    # 提示用户输入所需信息
-    read -p "请输入 B7S_AUTH_TOKEN: " B7S_AUTH_TOKEN 
+    # 提示用户输入 B7S_AUTH_TOKEN
+    read -p "请输入 B7S_AUTH_TOKEN: " B7S_AUTH_TOKEN
     echo "$B7S_AUTH_TOKEN" > user.txt
     echo "token 已保存到 user.txt 文件中。"
 
-    # 提示用户输入 nodeid 和 hardwareid 
+    # 提示用户输入 nodeid 和 hardwareid
     read -p "请输入 nodeid (公钥): " nodeid
     read -p "请输入 hardwareid: " hardwareid
+
     # 将 nodeid 和 hardwareid 保存到 id.txt 文件中
-    echo "$nodeid:$hardwareid" > id.txt 
-    echo "nodeid 和 hardwareid 已保存到 id.txt 文件中。" 
-    
+    echo "$nodeid:$hardwareid" > id.txt
+    echo "nodeid 和 hardwareid 已保存到 id.txt 文件中。"
+
     # 使用 tmux 自动运行 npm start
     tmux new-session -d -s Bless  # 创建新的 tmux 会话，名称为 Bless
     tmux send-keys -t Bless "cd Bless" C-m  # 切换到 Bless node 目录
