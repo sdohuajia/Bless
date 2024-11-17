@@ -76,9 +76,15 @@ function setup_blessnode() {
 function generate_nodeid() {
     echo "正在进入目录 ..."
     cd /root/Bless || { 
+        echo "无法进入 Bless 目录"; 
+        return 1; 
+    }
     
     # 运行生成器
-    node gen.js
+    node gen.js || {
+        echo "生成 NodeID 失败"
+        return 1
+    }
     
     echo "NodeID 生成完成。"
     read -n 1 -s -r -p "按任意键返回主菜单..."
