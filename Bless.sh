@@ -72,6 +72,18 @@ function setup_blessnode() {
     read -n 1 -s -r -p "按任意键返回主菜单..."
 }
 
+# 生成 NodeID 函数
+function generate_nodeid() {
+    echo "正在进入目录 ..."
+    cd /root/Bless || { 
+    
+    # 运行生成器
+    node gen.js
+    
+    echo "NodeID 生成完成。"
+    read -n 1 -s -r -p "按任意键返回主菜单..."
+}
+
 # 主菜单函数
 function main_menu() {
     while true; do
@@ -82,7 +94,8 @@ function main_menu() {
         echo "退出脚本，请按键盘 ctrl + C 退出即可"
         echo "请选择要执行的操作:"
         echo "1. 安装部署 Bless节点"
-        echo "2. 退出"
+        echo "2. 生成 NodeID"
+        echo "3. 退出"
 
         read -p "请输入您的选择 (1,2): " choice
         case $choice in
@@ -90,6 +103,9 @@ function main_menu() {
                 setup_blessnode  # 调用安装和配置函数
                 ;;
             2)
+                generate_nodeid
+                ;;
+            3)
                 echo "退出脚本..."
                 exit 0
                 ;;
