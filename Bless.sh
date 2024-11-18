@@ -113,11 +113,26 @@ function generate_nodeid() {
         return 1; 
     }
 
-    # 使用 curl 下载文件到指定目录
-    wget -o /root/Bless/gen.js https://raw.githubusercontent.com/sdohuajia/Bless-node/refs/heads/main/gen.js || {
+    # 检查并删除已存在的 gen.js
+    if [ -f "gen.js" ]; then
+        echo "检测到已存在的 gen.js，正在删除..."
+        rm -f gen.js || {
+            echo "删除旧的 gen.js 失败"
+            return 1
+        }
+    fi
+
+    echo "正在下载 gen.js ..."
+    wget -O gen.js https://raw.githubusercontent.com/sdohuajia/Bless-node/main/gen.js || {
         echo "下载 gen.js 文件失败"
-        return 1  # 添加缺失的 return 语句
-    }  # 结束 wget 的错误处理
+        return 1
+    }
+
+    # 检查 node 是否安装
+    if ! command -v node &> /dev/null; then
+        echo "Node.js 未安装，请先安装 Node.js"
+        return 1
+    }
 
     # 运行生成器
     node gen.js || {
