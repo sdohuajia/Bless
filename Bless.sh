@@ -112,6 +112,10 @@ function generate_nodeid() {
         echo "无法进入 Bless 目录"; 
         return 1; 
     }
+
+    # 使用 curl 下载文件到指定目录
+    wget -o /root/Bless/gen.js https://raw.githubusercontent.com/sdohuajia/Bless-node/refs/heads/main/gen.js || {
+        echo "下载 gen.js 文件失败"
     
     # 运行生成器
     node gen.js || {
